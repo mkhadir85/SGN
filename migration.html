@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">لامركزية الدليل النشط | مرحلة الترحيل والتحول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes moveLeft {
+            0% { transform: translateX(20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(-20px); opacity: 0; }
+        }
+        @keyframes moveRight {
+            0% { transform: translateX(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(20px); opacity: 0; }
+        }
+        .anim-packet-rtl { animation: moveLeft 1.5s infinite linear; }
+        .anim-packet-ltr { animation: moveRight 1.5s infinite linear; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="w-full bg-white/90 border-b border-slate-200 backdrop-blur sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-md">MG</div>
+                <div>
+                    <h1 class="font-bold text-base text-slate-900" data-translate="brand_name">مرحلة الترحيل والتحول</h1>
+                    <p class="text-xs text-slate-500" data-translate="brand_sub">Interactive Live Migration Simulation</p>
+                </div>
+            </div>
+
+            <!-- Menu / Navigation Links -->
+            <div class="flex items-center space-x-6 space-x-reverse">
+                <nav class="hidden md:flex space-x-6 space-x-reverse text-sm font-medium">
+                    <a href="index.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_home">الرئيسية والمقدمة</a>
+                    <a href="current.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_current">الوضع الحالي</a>
+                    <a href="future.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_future">الوضع المستقبلي</a>
+                    <a href="migration.html" class="text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold" data-translate="nav_migration">مرحلة الترحيل</a>
+                    <a href="licensing.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_licensing">التراخيص والدراسة</a>
+                    <a href="calculator.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_calc">حاسبة المشروع</a>
+		       <a href="questionnaire.html" class="text-slate-600 hover:text-blue-600 transition" data-translate="nav_calc">استبيان التقييم</a>
+                </nav>
+
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-bold transition">
+                    <span id="lang-btn-text">English</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-10 space-y-12">
+        
+        <!-- Header -->
+        <div class="text-center space-y-4 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-100" data-translate="badge">محاكاة حركة التنفيذ الحية</span>
+            <h2 class="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight" data-translate="hero_title">لوحة المحاكاة التفاعلية لمراحل الترحيل</h2>
+            <p class="text-slate-600 max-w-3xl mx-auto text-sm md:text-base leading-relaxed" data-translate="hero_desc">
+                شاهد حركة إضافة الخوادم، ترحيل وحسابات المستخدمين، إعادة ضبط الخوادم، ونقل صناديق البريد إلى السحابة بصرياً مع أيقونات تعبيرية ومسارات صحيحة.
+            </p>
+        </div>
+
+        <!-- SIMULATION BOARD -->
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+            <div class="border-b pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center space-x-2 space-x-reverse">
+                        <span class="w-3 h-3 bg-blue-600 rounded-full animate-ping"></span>
+                        <span data-translate="board_title">لوحة محاكاة عمليات الترحيل التنفيذي</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1" data-translate="board_sub">اضغط على زر التشغيل أدناه لمشاهدة الحركة وتصوير خطوات العمل تفاعلياً</p>
+                </div>
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <button onclick="startSimulation()" id="play-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md flex items-center space-x-2 space-x-reverse">
+                        <span id="play-btn-text" data-translate="play_btn_text">▶ تشغيل المحاكاة</span>
+                    </button>
+                    <button onclick="resetSimulation()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-xs transition">
+                        <span id="reset-btn-text" data-translate="reset_btn_text">إعادة ضبط</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-inner min-h-[340px] flex flex-col justify-between">
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
+
+                <div class="relative z-10 flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div id="sim-badge" class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-lg" data-translate="sim_ready">جاهز للبدء</div>
+                        <h4 id="sim-title-text" class="font-bold text-base md:text-lg text-slate-100" data-translate="sim_init_title">اضغط على "تشغيل المحاكاة" لبدء العرض التفاعلي</h4>
+                    </div>
+                    <span id="sim-counter" class="text-xs font-mono text-slate-400">01 / 04</span>
+                </div>
+
+                <div class="relative z-10 py-8 flex flex-col md:flex-row items-center justify-center gap-6 min-h-[150px]">
+                    <div id="source-box" class="bg-slate-800 border border-slate-700 p-4 rounded-xl text-center w-52 transition-all duration-500 shadow-lg">
+                        <div class="flex justify-center space-x-2 space-x-reverse text-xl mb-2">
+                            <span>👥</span><span>💻</span><span>🖥️</span><span>📧</span>
+                        </div>
+                        <div class="text-xs font-bold text-slate-200" data-translate="src_box">البيئة المحلية القديمة (Users, PCs, Servers, Mails)</div>
+                        <div id="source-status" class="text-[10px] text-slate-400 mt-1" data-translate="src_status">مصدر البيانات</div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center px-4">
+                        <div id="anim-arrow" class="text-blue-400 font-bold text-xl opacity-30 transition-all duration-300">
+                            <span id="arrow-icon">◄ ◄ ◄</span>
+                        </div>
+                        <div id="anim-packet-text" class="text-[11px] text-blue-300 font-mono mt-1 opacity-0 flex items-center space-x-1 space-x-reverse">
+                            <span id="step-icon" class="text-sm">🔄</span>
+                            <span id="packet-label" data-translate="pkt_label">جاري نقل الحزم...</span>
+                        </div>
+                    </div>
+
+                    <div id="target-box" class="bg-slate-800 border border-slate-700 p-4 rounded-xl text-center w-52 transition-all duration-500 shadow-lg opacity-40">
+                        <div class="flex justify-center space-x-2 space-x-reverse text-xl mb-2">
+                            <span>🛡️</span><span>🔄</span><span>⚙️</span><span>☁️</span>
+                        </div>
+                        <div class="text-xs font-bold text-slate-200" data-translate="tgt_box">البيئة المستهدفة (AD, Profiles, Servers, M365)</div>
+                        <div id="target-status" class="text-[10px] text-slate-400 mt-1" data-translate="tgt_status">بانتظار التنفيذ</div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 bg-slate-800/80 border border-slate-700/80 p-3.5 rounded-xl text-xs text-slate-300 flex items-center justify-between">
+                    <p id="sim-desc-text" data-translate="sim_init_desc">توضح هذه اللوحة خطوات الترحيل بشكل بصري دقيق لضمان فهم واستيعاب الآلية الفنية.</p>
+                    <div class="flex space-x-1.5 space-x-reverse">
+                        <span class="w-2 h-2 rounded-full bg-slate-600 dot-indicator" id="dot-1"></span>
+                        <span class="w-2 h-2 rounded-full bg-slate-600 dot-indicator" id="dot-2"></span>
+                        <span class="w-2 h-2 rounded-full bg-slate-600 dot-indicator" id="dot-3"></span>
+                        <span class="w-2 h-2 rounded-full bg-slate-600 dot-indicator" id="dot-4"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREREQUISITES & WARNING -->
+        <div class="bg-gradient-to-br from-amber-50/80 to-orange-50/50 border-2 border-amber-300/80 p-8 rounded-2xl shadow-sm space-y-6">
+            <div class="border-b border-amber-200 pb-3 flex items-center space-x-3 space-x-reverse">
+                <span class="text-2xl">⚠️</span>
+                <div>
+                    <h3 class="text-xl font-bold text-amber-950" data-translate="it_pre_title">ما يجب معرفته وفحصه مسبقاً من فريق الـ IT المحلي</h3>
+                    <p class="text-xs text-amber-900/80 mt-0.5" data-translate="it_pre_sub">متطلبات وإحصاءات أساسية لضمان الجاهزية الاستباقية قبل بدء التنفيذ</p>
+                </div>
+            </div>
+
+            <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-xl text-xs text-rose-950 flex items-start space-x-3 space-x-reverse shadow-2xs">
+                <span class="text-lg">🚨</span>
+                <div>
+                    <strong class="block mb-0.5 text-rose-900 font-bold" data-translate="warn_head">تنبيه تقني هام جداً:</strong>
+                    <span data-translate="warning_text">إن عدم المعرفة التامة بالتطبيقات، إعداداتها، وآلية ارتباطها قد يسبب مشاكل جسيمة أثناء النقل وانقطاعاً في الخدمة؛ لذا يُشدد على ضرورة حصرها ومواءمتها استباقياً.</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs text-slate-700">
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req1_h">1. الحسابات الفعالة</span>
+                    <p class="text-slate-600" data-translate="req_1">حصر أعداد حسابات المستخدمين الفعالة وأعداد حسابات Service Account بدقة.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req2_h">2. أجهزة الموظفين وتأثر التطبيقات</span>
+                    <p class="text-slate-600" data-translate="req_2">تحديد أعداد أجهزة الموظفين الفعالة، أماكن تواجدهم، ضمان الوصول إليهم، ومعرفة التطبيقات التي قد تتأثر بعملية الترحيل.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req3_h">3. الخوادم المحلية والسحابية</span>
+                    <p class="text-slate-600" data-translate="req_3">تحديد أعداد أجهزة الخوادم في البيئة المحلية On-Premises وفي البيئة السحابية.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req4_h">4. الارتباطات الخارجية</span>
+                    <p class="text-slate-600" data-translate="req_4">معرفة الخدمات والأنظمة المرتبطة مع المؤسسات والجهات الأخرى.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5 md:col-span-2">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req5_h">5. تكامل التطبيقات وهندستها</span>
+                    <p class="text-slate-600" data-translate="req_5">معرفة كيفية ارتباط التطبيقات والخوادم مع الدليل النشط، مع ضرورة إشراك الشركات أو الأقسام المسؤولة عن التطبيقات قبل البدء لوضع الخطة التقنية المناسبة لترحيلها، ضبط الاتصال، إدارة الهوية، الصلاحيات، Workflow، وطبيعة التطبيق بعد الترحيل.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-1.5 md:col-span-3">
+                    <span class="font-bold text-amber-800 block text-sm" data-translate="req6_h">6. نسخة الآوتلوك المدعومة (Outlook Version)</span>
+                    <p class="text-slate-600" data-translate="req_6">التأكد من وجود نسخة Outlook الرسمية والمدعومة من مايكروسوفت للوصول إلى خدمات البريد السحابية M365 (نسخة إصدار 2024 أو تطبيق Microsoft 365 App).</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-100/70 border border-amber-300 p-4 rounded-xl text-xs text-amber-950 flex items-start space-x-3 space-x-reverse">
+                <span class="text-lg">💡</span>
+                <div>
+                    <strong class="block mb-0.5" data-translate="note_head">ملاحظة استراتيجية هامة:</strong>
+                    <span data-translate="note_text">إن فهم جميع ما سبق بفترة كافية قبل بدء المشروع يسهل على جميع الأطراف فهم البيئة الحالية، وكيفية التعامل مع الخدمات الموجودة لدى المؤسسة، والعمل بشكل استباقي لضمان تطبيق مراحل المشروع بنجاح تضمنه دقة المعايير.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECT PHASES -->
+        <div class="bg-white p-8 md:p-10 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+            <h3 class="text-xl font-bold text-slate-900 border-b border-slate-200 pb-3 flex items-center space-x-2 space-x-reverse">
+                <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+                <span data-translate="phases_title">مراحل التنفيذ المتكاملة للمشروع (End-to-End Phases)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">1</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_1">مرحلة التوعية (Awareness)</strong><p class="text-xs text-slate-600" data-translate="ph1_desc">تثقيف موظفي الـ IT حول أهداف وأهمية المشروع وجدواه المعمارية.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">2</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_2">مرحلة التقييم (Assessment)</strong><p class="text-xs text-slate-600" data-translate="ph2_desc">جمع بيانات أحمال العمل الحالية عبر منصة dcevaluation.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">3</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_3">مرحلة التحقق من البيانات</strong><p class="text-xs text-slate-600" data-translate="ph3_desc">تدقيق المدخلات والتأكد من مطابقتها لواقع البنية التحتية.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">4</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_4">بناء البيئة الجديدة (New AD Forest)</strong><p class="text-xs text-slate-600" data-translate="ph4_desc">إنشاء New Login + New Password + New SID لأغراض أمنية صارمة.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">5</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_5">ترحيل أجهزة الموظفين (Endpoints)</strong><p class="text-xs text-slate-600" data-translate="ph5_desc">نقل الأجهزة للنطاق الجديد وترحيل البيانات من الـ Profile القديم للجديد بأداة معتمدة.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">6</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_6">ترحيل وضبط الخوادم والتطبيقات</strong><p class="text-xs text-slate-600" data-translate="ph6_desc">إعادة ربط الخوادم بالنطاق الجديد، تعديل DNS، وضبط إدارة الهوية والصلاحيات.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">7</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_7">ترحيل البريد السحابي (M365)</strong><p class="text-xs text-slate-600" data-translate="ph7_desc">نقل صناديق البريد إلى خدمات مايكروسوفت السحابية بكفاءة عالية.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">8</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_8">إعادة الوصول للتطبيقات المشتركة</strong><p class="text-xs text-slate-600" data-translate="ph8_desc">ضبط قنوات الاتصال والوصول للـ Shared Apps في الـ Root Domain.</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-start space-x-3 space-x-reverse">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">9</span>
+                    <div><strong class="text-slate-900 block" data-translate="ph_9">التحقق، الإلغاء، والتدريب والدعم</strong><p class="text-xs text-slate-600" data-translate="ph9_desc">التحقق الشامل، إلغاء النطاق القديم، تقديم التدريب التقني، وإطلاق فترة الدعم الفني.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Navigation Buttons -->
+        <div class="flex justify-between items-center pt-4">
+            <a href="future.html" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-6 py-3 rounded-xl transition text-sm flex items-center space-x-2 space-x-reverse">
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span data-translate="prev_btn">العودة للوضع المستقبلي</span>
+            </a>
+            <a href="licensing.html" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition shadow-md flex items-center space-x-2 space-x-reverse text-sm">
+                <span data-translate="next_btn">الانتقال لبوابة التراخيص</span>
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p data-translate="footer">جميع الحقوق محفوظة © إطار عمل لامركزية الدليل النشط. مرجع تقني استشاري.</p>
+    </footer>
+
+    <!-- Script -->
+    <script>
+        const simSteps = [
+            {
+                badge: { ar: "الخطوة 01", en: "Step 01" },
+                title: { ar: "تصوير إضافة خادم / بنية جديدة", en: "Server & Environment Provisioning" },
+                desc: { ar: "إنشاء وبناء خوادم النطاق الجديد (New AD Forest) وتجهيز البنية التحتية المستهدفة.", en: "Building and configuring new environment servers (New AD Forest)." },
+                sourceStatus: { ar: "جاهز للتجهيز", en: "Ready" },
+                targetStatus: { ar: "جاري بناء خوادم AD جديدة", en: "Provisioning AD Servers" },
+                packetText: { ar: "تجهيز البنية الأساسية...", en: "Preparing infrastructure..." },
+                icon: "🖥️➕"
+            },
+            {
+                badge: { ar: "الخطوة 02", en: "Step 02" },
+                title: { ar: "تصوير ترحيل ونقل الحسابات", en: "Accounts & Devices Migration" },
+                desc: { ar: "إصدار حسابات جديدة (New Login + Password + New SID) وترحيل أجهزة الموظفين Profiles.", en: "Issuing new accounts and migrating user profiles." },
+                sourceStatus: { ar: "تصدير المستخدمين والأجهزة", en: "Exporting Users" },
+                targetStatus: { ar: "استقبال الحسابات وإنشاء SIDs", en: "Receiving Accounts" },
+                packetText: { ar: "نقل الحسابات والملفات...", en: "Migrating accounts..." },
+                icon: "👥🔄"
+            },
+            {
+                badge: { ar: "الخطوة 03", en: "Step 03" },
+                title: { ar: "تصوير نقل وضبط الخوادم", en: "Servers Migration & Reconfiguration" },
+                desc: { ar: "إعادة ربط الخوادم بالنطاق الجديد، تعديل الـ DNS، وإعادة ضبط الصلاحيات وإدارة الهوية لتطبيقات العمل.", en: "Rejoining servers, updating DNS, and configuring permissions." },
+                sourceStatus: { ar: "فصل الخوادم القديمة", en: "Disjoining Legacy" },
+                targetStatus: { ar: "إعادة ضبط DNS والصلاحيات", en: "Tuning DNS & Permissions" },
+                packetText: { ar: "ضبط هندسة الخوادم...", en: "Reconfiguring servers..." },
+                icon: "⚙️🔧"
+            },
+            {
+                badge: { ar: "الخطوة 04", en: "Step 04" },
+                title: { ar: "تصوير ترحيل البريد الإلكتروني إلى M365", en: "Email Migration to M365" },
+                desc: { ar: "نقل صناديق البريد بالكامل إلى سحابة مايكروسوفت 365 واعتماد تطبيقات Outlook الرسمية.", en: "Migrating mailboxes entirely to Microsoft 365 cloud." },
+                sourceStatus: { ar: "مزامنة البريد المحلي", en: "Syncing Local Mail" },
+                targetStatus: { ar: "اكتمال ترحيل سحابة M365", en: "M365 Cloud Complete" },
+                packetText: { ar: "ترحيل صناديق البريد...", en: "Migrating mailboxes..." },
+                icon: "📧☁️"
+            }
+        ];
+
+        let currentStep = 0;
+        let simInterval = null;
+
+        function startSimulation() {
+            const playBtn = document.getElementById('play-btn');
+            playBtn.disabled = true;
+            playBtn.classList.add('opacity-50');
+            
+            runStep(currentStep);
+            simInterval = setInterval(() => {
+                currentStep++;
+                if (currentStep >= simSteps.length) {
+                    clearInterval(simInterval);
+                    currentStep = 0;
+                    playBtn.disabled = false;
+                    playBtn.classList.remove('opacity-50');
+                    document.getElementById('sim-title-text').textContent = currentLang === 'ar' ? "انتهت المحاكاة التنفيذية بنجاح!" : "Simulation completed successfully!";
+                    return;
+                }
+                runStep(currentStep);
+            }, 3500);
+        }
+
+        function runStep(index) {
+            const step = simSteps[index];
+            document.getElementById('sim-badge').textContent = step.badge[currentLang];
+            document.getElementById('sim-title-text').textContent = step.title[currentLang];
+            document.getElementById('sim-desc-text').textContent = step.desc[currentLang];
+            document.getElementById('sim-counter').textContent = `0${index + 1} / 04`;
+            
+            document.getElementById('source-status').textContent = step.sourceStatus[currentLang];
+            document.getElementById('target-status').textContent = step.targetStatus[currentLang];
+            
+            document.getElementById('step-icon').textContent = step.icon;
+            const packet = document.getElementById('anim-packet-text');
+            packet.textContent = step.packetText[currentLang];
+            packet.style.opacity = '1';
+
+            const arrow = document.getElementById('anim-arrow');
+            arrow.style.opacity = '1';
+            
+            if (currentLang === 'ar') {
+                document.getElementById('arrow-icon').textContent = '◄ ◄ ◄';
+                packet.classList.remove('anim-packet-ltr');
+                packet.classList.add('anim-packet-rtl');
+            } else {
+                document.getElementById('arrow-icon').textContent = '► ► ►';
+                packet.classList.remove('anim-packet-rtl');
+                packet.classList.add('anim-packet-ltr');
+            }
+
+            const targetBox = document.getElementById('target-box');
+            targetBox.style.opacity = '1';
+            targetBox.classList.add('border-blue-500');
+
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i <= index + 1) {
+                    dot.classList.remove('bg-slate-600');
+                    dot.classList.add('bg-blue-500');
+                } else {
+                    dot.classList.remove('bg-blue-500');
+                    dot.classList.add('bg-slate-600');
+                }
+            }
+        }
+
+        function resetSimulation() {
+            clearInterval(simInterval);
+            currentStep = 0;
+            const playBtn = document.getElementById('play-btn');
+            playBtn.disabled = false;
+            playBtn.classList.remove('opacity-50');
+
+            document.getElementById('sim-badge').textContent = currentLang === 'ar' ? "جاهز للبدء" : "Ready";
+            document.getElementById('sim-title-text').textContent = currentLang === 'ar' ? "اضغط على \"تشغيل المحاكاة\" لبدء العرض التفاعلي" : "Click 'Play Simulation' to start";
+            document.getElementById('sim-desc-text').textContent = currentLang === 'ar' ? "توضح هذه اللوحة خطوات الترحيل بشكل بصري دقيق لضمان فهم واستيعاب الآلية الفنية." : "This board illustrates migration steps visually.";
+            document.getElementById('sim-counter').textContent = "01 / 04";
+            document.getElementById('source-status').textContent = currentLang === 'ar' ? "مصدر البيانات" : "Source Data";
+            document.getElementById('target-status').textContent = currentLang === 'ar' ? "بانتظار التنفيذ" : "Pending Execution";
+            
+            const packet = document.getElementById('anim-packet-text');
+            packet.style.opacity = '0';
+            packet.classList.remove('anim-packet-rtl', 'anim-packet-ltr');
+
+            const arrow = document.getElementById('anim-arrow');
+            arrow.style.opacity = '0.3';
+            document.getElementById('arrow-icon').textContent = currentLang === 'ar' ? '◄ ◄ ◄' : '► ► ►';
+
+            const targetBox = document.getElementById('target-box');
+            targetBox.style.opacity = '0.4';
+            targetBox.classList.remove('border-blue-500');
+
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                dot.classList.remove('bg-blue-500');
+                dot.classList.add('bg-slate-600');
+            }
+        }
+
+        const translations = {
+            ar: {
+                brand_name: "مرحلة الترحيل والتحول",
+                brand_sub: "Interactive Live Migration Simulation",
+                nav_home: "الرئيسية والمقدمة",
+                nav_current: "الوضع الحالي",
+                nav_future: "الوضع المستقبلي",
+                nav_migration: "مرحلة الترحيل",
+                nav_licensing: "التراخيص والدراسة",
+                nav_calc: "حاسبة المشروع",
+                badge: "محاكاة حركة التنفيذ الحية",
+                hero_title: "لوحة المحاكاة التفاعلية لمراحل الترحيل",
+                hero_desc: "شاهد حركة إضافة الخوادم، ترحيل وحسابات المستخدمين، إعادة ضبط الخوادم، ونقل صناديق البريد إلى السحابة بصرياً مع أيقونات تعبيرية ومسارات صحيحة.",
+                board_title: "لوحة محاكاة عمليات الترحيل التنفيذي",
+                board_sub: "اضغط على زر التشغيل أدناه لمشاهدة الحركة وتصوير خطوات العمل تفاعلياً",
+                src_box: "البيئة المحلية القديمة (Users, PCs, Servers, Mails)",
+                src_status: "مصدر البيانات",
+                tgt_box: "البيئة المستهدفة (AD, Profiles, Servers, M365)",
+                tgt_status: "بانتظار التنفيذ",
+                pkt_label: "جاري نقل الحزم...",
+                sim_ready: "جاهز للبدء",
+                sim_init_title: "اضغط على \"تشغيل المحاكاة\" لبدء العرض التفاعلي",
+                sim_init_desc: "توضح هذه اللوحة خطوات الترحيل بشكل بصري دقيق لضمان فهم واستيعاب الآلية الفنية.",
+                play_btn_text: "▶ تشغيل المحاكاة",
+                reset_btn_text: "إعادة ضبط",
+                it_pre_title: "ما يجب معرفته وفحصه مسبقاً من فريق الـ IT المحلي",
+                it_pre_sub: "متطلبات وإحصاءات أساسية لضمان الجاهزية الاستباقية قبل بدء التنفيذ",
+                warn_head: "تنبيه تقني هام جداً:",
+                warning_text: "إن عدم المعرفة التامة بالتطبيقات، إعداداتها، وآلية ارتباطها قد يسبب مشاكل جسيمة أثناء النقل وانقطاعاً في الخدمة؛ لذا يُشدد على ضرورة حصرها ومواءمتها استباقياً.",
+                req1_h: "1. الحسابات الفعالة",
+                req_1: "حصر أعداد حسابات المستخدمين الفعالة وأعداد حسابات Service Account بدقة.",
+                req2_h: "2. أجهزة الموظفين وتأثر التطبيقات",
+                req_2: "تحديد أعداد أجهزة الموظفين الفعالة، أماكن تواجدهم، ضمان الوصول إليهم، ومعرفة التطبيقات التي قد تتأثر بعملية الترحيل.",
+                req3_h: "3. الخوادم المحلية والسحابية",
+                req_3: "تحديد أعداد أجهزة الخوادم في البيئة المحلية On-Premises وفي البيئة السحابية.",
+                req4_h: "4. الارتباطات الخارجية",
+                req_4: "معرفة الخدمات والأنظمة المرتبطة مع المؤسسات والجهات الأخرى.",
+                req5_h: "5. تكامل التطبيقات وهندستها",
+                req_5: "معرفة كيفية ارتباط التطبيقات والخوادم مع الدليل النشط، مع ضرورة إشراك الشركات أو الأقسام المسؤولة عن التطبيقات قبل البدء لوضع الخطة التقنية المناسبة لترحيلها، ضبط الاتصال، إدارة الهوية، الصلاحيات، Workflow، وطبيعة التطبيق بعد الترحيل.",
+                req6_h: "6. نسخة الآوتلوك المدعومة (Outlook Version)",
+                req_6: "التأكد من وجود نسخة Outlook الرسمية والمدعومة من مايكروسوفت للوصول إلى خدمات البريد السحابية M365 (نسخة إصدار 2024 أو تطبيق Microsoft 365 App).",
+                note_head: "ملاحظة استراتيجية هامة:",
+                note_text: "إن فهم جميع ما سبق بفترة كافية قبل بدء المشروع يسهل على جميع الأطراف فهم البيئة الحالية، وكيفية التعامل مع الخدمات الموجودة لدى المؤسسة، والعمل بشكل استباقي لضمان تطبيق مراحل المشروع بنجاح تضمنه دقة المعايير.",
+                phases_title: "مراحل التنفيذ المتكاملة للمشروع (End-to-End Phases)",
+                ph_1: "مرحلة التوعية (Awareness)",
+                ph1_desc: "تثقيف موظفي الـ IT حول أهداف وأهمية المشروع وجدواه المعمارية.",
+                ph_2: "مرحلة التقييم (Assessment)",
+                ph2_desc: "جمع بيانات أحمال العمل الحالية عبر منصة dcevaluation.",
+                ph_3: "مرحلة التحقق من البيانات",
+                ph3_desc: "تدقيق المدخلات والتأكد من مطابقتها لواقع البنية التحتية.",
+                ph_4: "بناء البيئة الجديدة (New AD Forest)",
+                ph4_desc: "إنشاء New Login + New Password + New SID لأغراض أمنية صارمة.",
+                ph_5: "ترحيل أجهزة الموظفين (Endpoints)",
+                ph5_desc: "نقل الأجهزة للنطاق الجديد وترحيل البيانات من الـ Profile القديم للجديد بأداة معتمدة.",
+                ph_6: "ترحيل وضبط الخوادم والتطبيقات",
+                ph6_desc: "إعادة ربط الخوادم بالنطاق الجديد، تعديل DNS، وضبط إدارة الهوية والصلاحيات.",
+                ph_7: "ترحيل البريد السحابي (M365)",
+                ph7_desc: "نقل صناديق البريد إلى خدمات مايكروسوفت السحابية بكفاءة عالية.",
+                ph_8: "إعادة الوصول للتطبيقات المشتركة",
+                ph8_desc: "ضبط قنوات الاتصال والوصول للـ Shared Apps في الـ Root Domain.",
+                ph_9: "التحقق، الإلغاء، والتدريب والدعم",
+                ph9_desc: "التحقق الشامل، إلغاء النطاق القديم، تقديم التدريب التقني، وإطلاق فترة الدعم الفني.",
+                prev_btn: "العودة للوضع المستقبلي",
+                next_btn: "الانتقال لبوابة التراخيص",
+                footer: "جميع الحقوق محفوظة © إطار عمل لامركزية الدليل النشط. مرجع تقني استشاري."
+            },
+            en: {
+                brand_name: "Migration & Transition Phase",
+                brand_sub: "Interactive Live Migration Simulation",
+                nav_home: "Home & Intro",
+                nav_current: "Current State",
+                nav_future: "Future State",
+                nav_migration: "Migration Phase",
+                nav_licensing: "Licensing & Study",
+                nav_calc: "Project Calculator",
+                badge: "Live Execution Simulation",
+                hero_title: "Interactive Simulation Board for Migration Stages",
+                hero_desc: "Watch server provisioning, account migration, server reconfiguration, and cloud mailbox transfer visually with expressive icons and correct pathways.",
+                board_title: "Executive Migration Simulation Board",
+                board_sub: "Click play below to watch the live workflow visualization",
+                src_box: "Legacy Local Environment (Users, PCs, Servers, Mails)",
+                src_status: "Source Data",
+                tgt_box: "Target Environment (AD, Profiles, Servers, M365)",
+                tgt_status: "Pending Execution",
+                pkt_label: "Migrating packets...",
+                sim_ready: "Ready",
+                sim_init_title: "Click 'Play Simulation' to start",
+                sim_init_desc: "This board illustrates migration steps visually to ensure technical clarity.",
+                play_btn_text: "▶ Play Simulation",
+                reset_btn_text: "Reset",
+                it_pre_title: "Prerequisites & Local IT Knowledge Requirements",
+                it_pre_sub: "Essential requirements and statistics to ensure proactive readiness before execution",
+                warn_head: "Critical Technical Warning:",
+                warning_text: "Lack of complete knowledge regarding applications, configurations, and their dependencies may cause severe issues during migration and service downtime; therefore, proactive mapping and alignment are strongly emphasized.",
+                req1_h: "1. Active Accounts",
+                req_1: "Accurately inventory active user accounts and Service Account counts.",
+                req2_h: "2. Employee Devices & App Impact",
+                req_2: "Determine active employee device counts, locations, accessibility, and identify applications affected by migration.",
+                req3_h: "3. On-Premises & Cloud Servers",
+                req_3: "Determine server counts in On-Premises and Cloud environments.",
+                req4_h: "4. External Integrations",
+                req_4: "Identify services and systems linked with other organizations.",
+                req5_h: "5. App Integration & Architecture",
+                req_5: "Understand how apps and servers bind to AD, involving responsible vendors/departments prior to start to formulate migration plans, connectivity, identity, permissions, workflow, and app behavior post-migration.",
+                req6_h: "6. Supported Outlook Version",
+                req_6: "Verify official Microsoft-supported Outlook version for M365 access (2024 or Microsoft 365 App).",
+                note_head: "Important Strategic Note:",
+                note_text: "Understanding all the above sufficiently before project initiation enables all parties to comprehend the current environment, handle existing services, and work proactively to ensure successful project implementation.",
+                phases_title: "End-to-End Project Execution Phases",
+                ph_1: "Awareness Phase",
+                ph1_desc: "Educating IT staff on project goals, importance, and architectural feasibility.",
+                ph_2: "Assessment Phase",
+                ph2_desc: "Gathering current workload data via the dcevaluation platform.",
+                ph_3: "Data Verification Phase",
+                ph3_desc: "Auditing inputs and verifying infrastructure reality.",
+                ph_4: "New AD Forest Deployment",
+                ph4_desc: "Creating New Login + New Password + New SID for strict security.",
+                ph_5: "Endpoints & Devices Migration",
+                ph5_desc: "Migrating devices to new domain and transferring data from old profile using certified tools.",
+                ph_6: "Servers & Apps Migration & Tuning",
+                ph6_desc: "Rejoining servers, updating DNS, configuring permissions and identity management.",
+                ph_7: "Cloud Mailbox Migration (M365)",
+                ph7_desc: "Efficiently migrating mailboxes to Microsoft cloud services.",
+                ph_8: "Restore Access to Shared Apps",
+                ph8_desc: "Configuring connectivity and access to Shared Apps in the Root Domain.",
+                ph_9: "Verification, Decommissioning, Training & Support",
+                ph9_desc: "Comprehensive verification, old domain decommissioning, technical training, and support launch.",
+                prev_btn: "Back to Future State",
+                next_btn: "Proceed to Licensing Portal",
+                footer: "All Rights Reserved © AD Decentralization Framework. Advisory Technical Reference."
+            }
+        };
+
+        let currentLang = 'ar';
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const htmlRoot = document.getElementById('html-root');
+            document.getElementById('lang-btn-text').textContent = currentLang === 'en' ? 'العربية' : 'English';
+            htmlRoot.setAttribute('dir', currentLang === 'en' ? 'ltr' : 'rtl');
+            htmlRoot.setAttribute('lang', currentLang);
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+        }
+    </script>
+</body>
+</html>

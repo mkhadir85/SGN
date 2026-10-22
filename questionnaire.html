@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">استبيان التقييم التفصيلي واقتراح الرخص | Smart Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="w-full bg-white/90 border-b border-slate-200 backdrop-blur sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-md">QR</div>
+                <div>
+                    <h1 class="font-bold text-base text-slate-900">استبيان التقييم واقتراح الرخص</h1>
+                    <p class="text-xs text-slate-500">Interactive Assessment Questionnaire</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6 space-x-reverse">
+                <nav class="hidden md:flex space-x-6 space-x-reverse text-sm font-medium">
+                    <a href="index.html" class="text-slate-600 hover:text-blue-600 transition">الرئيسية والمقدمة</a>
+                    <a href="current.html" class="text-slate-600 hover:text-blue-600 transition">الوضع الحالي</a>
+                    <a href="future.html" class="text-slate-600 hover:text-blue-600 transition">الوضع المستقبلي</a>
+                    <a href="migration.html" class="text-slate-600 hover:text-blue-600 transition">مرحلة الترحيل</a>
+                    <a href="licensing.html" class="text-slate-600 hover:text-blue-600 transition">التراخيص والدراسة</a>
+                    <a href="calculator.html" class="text-slate-600 hover:text-blue-600 transition">حاسبة المشروع</a>
+                    <a href="questionnaire.html" class="text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold">استبيان التقييم</a>
+                </nav>
+
+                <button onclick="toggleLanguage()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-bold transition">
+                    <span id="lang-btn-text">English</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-10 space-y-10">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-100">الاستبيان التقني التفاعلي المطور</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">استبيان تقييم بيئة المؤسسة واقتراح خلطة الرخص الذكية</h2>
+            <p class="text-slate-600 max-w-3xl mx-auto text-sm leading-relaxed">
+                أجب عن الأسئلة المنطقية المتسلسلة أدناه. يتم توجيهك تلقائياً بناءً على حجم المؤسسة (أقل أو أكثر من 300 مستخدم) مع إمكانية دمج خيارات البريد مع الأوفيس المستقل وتدوين الأعداد.
+            </p>
+        </div>
+
+        <!-- GRID CONTAINER -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- WIZARD STEP PANEL (7 Cols) -->
+            <div class="lg:col-span-7 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 id="step-indicator" class="text-sm font-bold text-blue-600">السؤال 1</h3>
+                    <span id="step-progress" class="text-xs font-mono text-slate-400">معالج تفاعلي ذكي</span>
+                </div>
+
+                <!-- Question Container -->
+                <div id="step-content-box" class="space-y-4 py-2">
+                    <!-- Dynamic Step Loaded Here -->
+                </div>
+
+                <!-- Navigation & Reset Controls -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <button onclick="prevStep()" id="wiz-prev" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition" style="display: none;">السابق</button>
+                    <button onclick="resetQuestionnaire()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 font-semibold px-4 py-2 rounded-xl text-xs transition">إعادة ضبط (Reset)</button>
+                    <button onclick="nextStep()" id="wiz-next" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl text-xs transition shadow-md">التالي</button>
+                </div>
+            </div>
+
+            <!-- CART SUMMARY PANEL (5 Cols - Sticky) -->
+            <div class="lg:col-span-5 bg-slate-900 text-white p-8 rounded-2xl shadow-xl space-y-6 sticky top-28">
+                <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-slate-100">خلطة الرخص المضافة إلى الحاسبة</h3>
+                    <span class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Live Cart</span>
+                </div>
+
+                <!-- Breakdown List -->
+                <div id="wizard-cart-items" class="space-y-2.5 text-xs max-h-56 overflow-y-auto pr-1">
+                    <div class="text-slate-400 text-center py-4">لم تقم بإضافة أي رخص بعد من خلال الأسئلة.</div>
+                </div>
+
+                <!-- Cost Summary -->
+                <div class="space-y-3 text-xs pt-2 border-t border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                        <span class="text-slate-300">إجمالي عدد الرخص المختارة:</span>
+                        <span id="cart-total-units" class="font-bold text-emerald-400 text-sm">0</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-emerald-600/20 p-4 rounded-xl border border-slate-500/40">
+                        <span class="font-bold text-white text-sm">الكلفة السنوية الإجمالية:</span>
+                        <span id="cart-total-cost" class="font-extrabold text-emerald-400 text-lg">0 JOD</span>
+                    </div>
+                </div>
+
+                <div class="text-[10px] text-slate-400 text-center bg-slate-800/40 p-2.5 rounded-lg border border-slate-700/50">
+                    * الأسعار بالدينار الأردني سنوياً للمستخدم، غير شاملة لضريبة المبيعات.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Page Navigation Buttons -->
+        <div class="flex justify-between items-center pt-4">
+            <a href="calculator.html" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-6 py-3 rounded-xl transition text-sm flex items-center space-x-2 space-x-reverse">
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>العودة لحاسبة المشروع</span>
+            </a>
+            <a href="licensing.html" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition shadow-md flex items-center space-x-2 space-x-reverse">
+                <span>الانتقال لبوابة التراخيص</span>
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>جميع الحقوق محفوظة © إطار عمل لامركزية الدليل النشط. مرجع تقني استشاري للاستبيان.</p>
+    </footer>
+
+    <!-- Scripting for Intelligent Wizard Logic -->
+    <script>
+        const stepsData = [
+            {
+                id: "scale",
+                title: "السؤال الرئيسي: ما هو حجم الموظفين الإجمالي المتوقع في المؤسسة؟",
+                type: "branch_choice",
+                options: [
+                    { label: "أقل من أو يساوي 300 مستخدم (التوجه لباقات Business)", path: "business" },
+                    { label: "أكثر من 300 مستخدم (التوجه لباقات Enterprise - E1 أو E3)", path: "enterprise" }
+                ]
+            },
+            {
+                id: "kiosk",
+                title: "السؤال: هل هناك موظفون ميدانيون أو لا يوجد لديهم حواسيب، وتكتفي بمتابعة البريد عبر الويب/الموبايل (Exchange Online Kiosk - 18 JOD)؟",
+                type: "license_input",
+                license: "Exchange Online Kiosk",
+                price: 18,
+                allowOffice2024: true
+            },
+            {
+                id: "exp1",
+                title: "السؤال: هل هناك موظفون يحتاجون سعة بريد (50GB) مع برنامج Outlook المكتبي وتطبيقات الموبايل والويب (Exchange Online Plan 1 - 32 JOD)؟",
+                type: "license_input",
+                license: "Exchange Online Plan 1",
+                price: 32,
+                allowOffice2024: true,
+                allowBusinessApp: true
+            },
+            {
+                id: "exp2",
+                title: "السؤال: هل هناك موظفون يحتاجون سعة بريد أكبر من 50GB مع أرشيف وحفظ قانوني litigation hold (Exchange Online Plan 2 - 64 JOD)؟",
+                type: "license_input",
+                license: "Exchange Online Plan 2",
+                price: 64,
+                allowOffice2024: true,
+                allowBusinessApp: true
+            },
+            {
+                id: "basic",
+                title: "السؤال: هل تحتاج إلى باقات Basic الأساسية (ميزات: بريد 100GB + أرشيف 50GB + سحابة OneDrive 1TB + تطبيقات ويب وهاتف + Teams أو بدون Teams)؟",
+                type: "multi_sub_options",
+                options: [
+                    { name: "M365 Business Basic with Teams", price: 65, label: "M365 Business Basic with Teams (65 JOD)" },
+                    { name: "Microsoft 365 Business Basic (no Teams)", price: 46, label: "Microsoft 365 Business Basic (no Teams) (46 JOD)" }
+                ]
+            },
+            {
+                id: "standard",
+                title: "السؤال: هل تحتاج إلى باقات Standard القياسية (ميزات: بريد 100GB + أرشيف 50GB + OneDrive + تطبيقات مكتبية كاملة لسطح المكتب + Teams أو بدون Teams)؟",
+                type: "multi_sub_options",
+                options: [
+                    { name: "M365 Business Standard with Teams", price: 100, label: "M365 Business Standard with Teams (100 JOD)" },
+                    { name: "Microsoft 365 Business Standard (no Teams)", price: 92, label: "Microsoft 365 Business Standard (no Teams) (92 JOD)" }
+                ]
+            },
+            {
+                id: "copilot",
+                title: "السؤال: هل ترغب في إضافة الذكاء الاصطناعي (Copilot) لباقات Standard (Standard with Teams + Copilot بـ 200 JOD)؟",
+                type: "license_input",
+                license: "M365 Standard with Teams + Copilot",
+                price: 200
+            },
+            {
+                id: "enterprise_branch",
+                title: "السؤال (خاص بالمؤسسات الكبرى > 300): ما هي باقة Enterprise المطلوبة؟",
+                type: "enterprise_options",
+                options: [
+                    { name: "Office 365 E1", price: 85, label: "Office 365 E1 (85 JOD)" },
+                    { name: "Office 365 E3", price: 225, label: "Office 365 E3 (225 JOD)" },
+                    { name: "Microsoft 365 E3", price: 335, label: "Microsoft 365 E3 (335 JOD)" }
+                ]
+            },
+            {
+                id: "addons",
+                title: "السؤال الأخير: هل هناك احتياج لرخص تطبيقات دائم (Office 2024 لمرة واحدة بـ 350 JOD) أو إضافات تيمز مستقلة (Teams + Copilot Add-on)؟",
+                type: "multi_sub_options",
+                options: [
+                    { name: "Office 2024 (One-Time Purchase)", price: 350, label: "Office 2024 الدائم (350 JOD لمرة واحدة)" },
+                    { name: "Microsoft Teams Essentials", price: 34, label: "Microsoft Teams Essentials المستقل (34 JOD)" },
+                    { name: "Microsoft 365 Copilot Business (add-on)", price: 175, label: "Microsoft 365 Copilot Business Add-on (175 JOD)" }
+                ]
+            }
+        ];
+
+        let currentStep = 0;
+        let organizationScale = 'business'; // 'business' or 'enterprise'
+        let selectedCart = [];
+
+        function renderStep() {
+            const step = stepsData[currentStep];
+            const box = document.getElementById('step-content-box');
+            
+            document.getElementById('step-indicator').textContent = `الخطوة ${currentStep + 1} من ${stepsData.length}`;
+            document.getElementById('step-progress').textContent = Math.round(((currentStep + 1) / stepsData.length) * 100) + '%';
+
+            // Skip enterprise step if business, or skip business steps if enterprise
+            if(organizationScale === 'business' && step.id === 'enterprise_branch') {
+                currentStep++;
+                return renderStep();
+            }
+            if(organizationScale === 'enterprise' && (step.id === 'basic' || step.id === 'standard' || step.id === 'copilot')) {
+                currentStep++;
+                return renderStep();
+            }
+
+            let html = `<h4 class="font-bold text-slate-900 text-sm leading-relaxed">${step.title}</h4>`;
+
+            if(step.type === 'branch_choice') {
+                html += `<div class="space-y-3 pt-2">`;
+                step.options.forEach((opt, idx) => {
+                    html += `
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
+                                <input type="radio" name="scale_opt" value="${opt.path}" class="text-blue-600 focus:ring-blue-500" ${idx === 0 ? 'checked' : ''} onchange="organizationScale='${opt.path}'">
+                                <span class="text-xs font-bold text-slate-800">${opt.label}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else if(step.type === 'license_input') {
+                html += `
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 pt-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-800">الرخصة: ${step.license} (${step.price} JOD)</span>
+                            <input type="number" id="step-qty" value="25" min="0" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-center font-bold">
+                        </div>
+                `;
+                if(step.allowOffice2024) {
+                    html += `
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200">
+                            <span class="text-xs text-slate-700">كم عدد رخص Office 2024 المطلوبة (350 JOD)؟</span>
+                            <input type="number" id="step-off24" value="0" min="0" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-center font-bold">
+                        </div>
+                    `;
+                }
+                if(step.allowBusinessApp) {
+                    html += `
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200">
+                            <span class="text-xs text-slate-700">كم عدد رخص M365 Apps for business المطلوبة (90 JOD)؟</span>
+                            <input type="number" id="step-appbus" value="0" min="0" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-center font-bold">
+                        </div>
+                    `;
+                }
+                html += `
+                        <button onclick="addLicenseStep('${step.license}', ${step.price}, ${step.allowOffice2024 || false}, ${step.allowBusinessApp || false})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl text-xs transition shadow-sm mt-2">إضافة هذه الفئة للحاسبة والانتقال للتالي</button>
+                    </div>
+                `;
+            } else if(step.type === 'multi_sub_options' || step.type === 'enterprise_options') {
+                html += `<div class="space-y-3 pt-2">`;
+                step.options.forEach((opt, idx) => {
+                    html += `
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                            <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
+                                <input type="radio" name="sub_opt" value="${idx}" class="text-blue-600" onchange="toggleSubQty(${idx})">
+                                <span class="text-xs font-bold text-slate-800">${opt.label}</span>
+                            </label>
+                            <div id="sub-qty-box-${idx}" class="hidden pl-6 pt-2 flex items-center space-x-3 space-x-reverse">
+                                <span class="text-xs text-slate-600">العدد المطلوب:</span>
+                                <input type="number" id="sub-val-${idx}" value="25" min="1" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1 text-xs text-center font-bold">
+                                <button onclick="addSubToCart('${opt.name}', ${opt.price}, ${idx})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-1.5 rounded-lg text-xs transition">إضافة للحاسبة</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            box.innerHTML = html;
+            document.getElementById('prev-btn').style.display = currentStep > 0 ? 'block' : 'none';
+        }
+
+        function toggleSubQty(idx) {
+            document.querySelectorAll('[id^="sub-qty-box-"]').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`sub-qty-box-${idx}`);
+            if(target) target.classList.remove('hidden');
+        }
+
+        function addLicenseStep(licName, price, allowOff, allowApp) {
+            const qty = parseInt(document.getElementById('step-qty').value) || 0;
+            if(qty > 0) pushToCart(licName, price, qty);
+
+            if(allowOff) {
+                const offQty = parseInt(document.getElementById('step-off24').value) || 0;
+                if(offQty > 0) pushToCart("Office 2024 (One-Time Purchase)", 350, offQty);
+            }
+            if(allowApp) {
+                const appQty = parseInt(document.getElementById('step-appbus').value) || 0;
+                if(appQty > 0) pushToCart("Microsoft 365 Apps for business", 90, appQty);
+            }
+
+            nextStep();
+        }
+
+        function addSubToCart(name, price, idx) {
+            const qty = parseInt(document.getElementById(`sub-val-${idx}`).value) || 0;
+            if(qty <= 0) return;
+            pushToCart(name, price, qty);
+            nextStep();
+        }
+
+        function pushToCart(name, price, qty) {
+            const existing = selectedCart.find(item => item.license === name);
+            if(existing) {
+                existing.qty += qty;
+            } else {
+                selectedCart.push({ license: name, price: price, qty: qty });
+            }
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            selectedCart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('wizard-cart-items');
+            let totalUnits = 0;
+            let totalCost = 0;
+            let html = '';
+
+            if(selectedCart.length === 0) {
+                html = `<div class="text-slate-400 text-center py-4">لم تقم بإضافة أي رخص بعد.</div>`;
+            } else {
+                selectedCart.forEach((item, index) => {
+                    const lineCost = item.price * item.qty;
+                    totalUnits += item.qty;
+                    totalCost += lineCost;
+                    html += `
+                        <div class="flex justify-between items-center bg-slate-800 p-2.5 rounded border border-slate-700 text-slate-300">
+                            <div>
+                                <strong class="text-white block text-xs">${item.license}</strong>
+                                <span class="text-[10px] text-slate-400">العدد: ${item.qty} | السعر: ${item.price} JOD</span>
+                            </div>
+                            <div class="flex items-center space-x-2 space-x-reverse">
+                                <span class="font-bold text-emerald-400 text-xs">${lineCost.toLocaleString()} JOD</span>
+                                <button onclick="removeFromCart(${index})" class="text-rose-400 hover:text-rose-200 font-bold px-1 text-xs">✕</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            container.innerHTML = html;
+            document.getElementById('cart-total-units').textContent = totalUnits;
+            document.getElementById('cart-total-cost').textContent = totalCost.toLocaleString() + ' JOD';
+        }
+
+        function resetQuestionnaire() {
+            currentStep = 0;
+            selectedCart = [];
+            renderStep();
+            renderCart();
+        }
+
+        function nextStep() {
+            if(currentStep < stepsData.length - 1) {
+                currentStep++;
+                renderStep();
+            } else {
+                alert("لقد أكملت أسئلة الاستبيان بنجاح! راجع خلطة الرخص في القائمة الجانبية.");
+            }
+        }
+
+        function prevStep() {
+            if(currentStep > 0) {
+                currentStep--;
+                renderStep();
+            }
+        }
+
+        window.onload = function() {
+            renderStep();
+            renderCart();
+        };
+    </script>
+</body>
+</html>
